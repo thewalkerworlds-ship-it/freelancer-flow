@@ -1,68 +1,70 @@
+/* --- Import Tailwind's base styles --- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- "GLOWING INTERFACE" THEME from your original code --- */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+    --background: #000000;
+    --foreground: #ffffff;
+    --muted-foreground: #a1a1aa; /* Zinc 400 */
+    --border: #27272a; /* Zinc 800 */
+    --ring: #00f6ff;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+    --primary: #00f6ff;   /* Bright Cyan */
+    --secondary: #d869ff; /* Bright Purple */
+    --accent: #a3ff5c;    /* Bright Green */
+    --destructive: #f43f5e; /* Rose 500 */
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+    /* Variables for dynamic component styling */
+    --card-color: var(--primary); 
+    --input-color: var(--primary);
+    --glow-color: var(--primary);
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Inter', sans-serif;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+@keyframes pulse {
+    0%, 100% { text-shadow: 0 0 8px var(--primary), 0 0 16px var(--primary); }
+    50% { text-shadow: 0 0 12px var(--primary), 0 0 24px var(--primary); }
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.neon-text {
+    text-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
+.neon-pulse {
+    animation: pulse 2.5s infinite ease-in-out;
+}
+
+.neon-border {
+    border: 1px solid var(--card-color);
+    box-shadow: 0 0 8px var(--card-color), inset 0 0 8px var(--card-color);
+}
+
+.neon-glow {
+    box-shadow: 0 0 12px var(--glow-color), 0 0 24px var(--glow-color);
+}
+
+input, select {
+    --ring: var(--input-color);
+}
+
+::-webkit-scrollbar { height: 12px; width: 8px; }
+::-webkit-scrollbar-track { background: #18181b; }
+::-webkit-scrollbar-thumb {
+    background-color: #e4e4e7;
+    border-radius: 10px;
+    border: 2px solid #18181b;
+}
+::-webkit-scrollbar-thumb:hover {
     background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }
+
+/* Add this to make sure your fonts are available */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Roboto+Mono:wght@400;700&display=swap');
+
