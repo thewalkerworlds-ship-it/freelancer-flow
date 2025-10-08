@@ -11,7 +11,7 @@ const Save = (props) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" heig
 const X = (props) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>);
 
 function App() {
-    const Card = ({ children, className = '' }) => (<div className={`bg-transparent p-1 ${className}`}><div className="bg-black/80 rounded-xl">{children}</div></div>);
+    const Card = ({ children, className = '', style = {} }) => (<div className={`bg-transparent p-1 ${className}`} style={style}><div className="bg-black/80 rounded-xl h-full">{children}</div></div>);
     const CardHeader = ({ children, className = '' }) => <div className={`p-6 ${className}`}>{children}</div>;
     const CardTitle = ({ children, className = '' }) => <h3 className={`text-xl font-semibold tracking-tight ${className}`}>{children}</h3>;
     const CardDescription = ({ children, className = '' }) => <p className={`text-sm text-[var(--muted-foreground)] ${className}`}>{children}</p>;
@@ -103,4 +103,37 @@ function App() {
                     </div>
                     <StatsCard totalEarnings={totalEarnings} />
                     <Card className="neon-border" style={{'--card-color': 'var(--accent)'}}><CardHeader><div className="flex flex-wrap items-center justify-between gap-4"><div><CardTitle className="text-2xl text-foreground">Projects</CardTitle><CardDescription>Manage your active and completed projects</CardDescription></div><Button onClick={() => exportToExcel(projects)} variant="outline" className="border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)]/20 neon-border" style={{'--card-color': 'var(--accent)'}}><Download className="mr-2 h-4 w-4" /> Export to Excel</Button></div></CardHeader><CardContent><div className="rounded-lg overflow-x-auto"><Table><TableHeader><TableRow className="border-b-2 border-[var(--border)]"><TableHead className="w-16 text-center">S.No.</TableHead><TableHead className="text-[var(--primary)] min-w-[120px]">Date</TableHead><TableHead className="text-[var(--primary)] min-w-[200px]">Project Name</TableHead><TableHead className="text-[var(--secondary)] min-w-[180px]">Client</TableHead><TableHead className="text-[var(--accent)] min-w-[140px] text-right">Amount (₹)</TableHead><TableHead className="text-center min-w-[120px]">Actions</TableHead></TableRow></TableHeader><TableBody>{sortedProjects.map((project, index) => (<ProjectRow key={project.id} project={project} index={index} editingId={editingId} editFormData={editFormData} setEditFormData={setEditFormData} handleEdit={handleEdit} handleSave={handleSave} handleCancel={handleCancel} handleDelete={handleDelete} />))}</TableBody></Table></div></CardContent></Card>
-                    <Card className="neon-border" style={{'--card-color': 'var(--accent)'}}><CardHeader><CardTitle className="flex items-center gap-3 text-2xl text-foreground"><span className="flex items-center justify-center h-8 w-8 rounded-md bg-[var(--accent)]/20 text-[var(--accent)] neon-border" style={{'--card-color':'var(--accent)'}}><Plus className="h-6 w-6"/></span>Add New Project</CardTitle><CardDescription>Enter project details to add to your dashboard</CardDescription></CardHeader><CardContent><form onSubmit={handleSubmit} className="space-y-6"><div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 items-end"><div className="space-y-2"><Label htmlFor="date">Date</Label><Input id="date" type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} className="neon-border" style={{'--card-color': 'var(--primary)'}} required/></div><div className="space-y-2"><Label htmlFor="projectName">Project Name</Label><Input id="projectName" placeholder="Enter project name" value={formData.projectName} onChange={(e) => setFormData({ ...formData, projectName: e.target.value })} className="neon-border" style={{'--card-color': 'var(--primary)'}} required/></div><div className="space-y-2"><Label htmlFor="clientName">Client Name</Label><Input id="clientName" placeholder="Enter client name" value={formData.clientName} onChange={(e) => setFormData({ ...formData, clientName: e.target.value })}
+                    <Card className="neon-border" style={{'--card-color': 'var(--accent)'}}><CardHeader><CardTitle className="flex items-center gap-3 text-2xl text-foreground"><span className="flex items-center justify-center h-8 w-8 rounded-md bg-[var(--accent)]/20 text-[var(--accent)] neon-border" style={{'--card-color':'var(--accent)'}}><Plus className="h-6 w-6"/></span>Add New Project</CardTitle><CardDescription>Enter project details to add to your dashboard</CardDescription></CardHeader><CardContent>
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 items-end">
+                                <div className="space-y-2">
+                                    <Label htmlFor="date">Date</Label>
+                                    <Input id="date" type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} className="neon-border" style={{'--card-color': 'var(--primary)'}} required/>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="projectName">Project Name</Label>
+                                    <Input id="projectName" placeholder="Enter project name" value={formData.projectName} onChange={(e) => setFormData({ ...formData, projectName: e.target.value })} className="neon-border" style={{'--card-color': 'var(--primary)'}} required/>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="clientName">Client Name</Label>
+                                    <Input id="clientName" placeholder="Enter client name" value={formData.clientName} onChange={(e) => setFormData({ ...formData, clientName: e.target.value })} className="neon-border" style={{'--card-color': 'var(--secondary)'}} required/>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="amount">Amount (₹)</Label>
+                                    <Input id="amount" type="number" placeholder="Enter amount" value={formData.amount} onChange={(e) => setFormData({ ...formData, amount: e.target.value })} className="neon-border" style={{'--card-color': 'var(--accent)'}} required/>
+                                </div>
+                            </div>
+                            <div className="flex justify-end">
+                                <Button type="submit" className="bg-[var(--accent)] text-white hover:bg-[var(--accent)]/90 neon-glow" style={{'--glow-color': 'var(--accent)'}}>
+                                    <Plus className="mr-2 h-4 w-4" /> Add Project
+                                </Button>
+                            </div>
+                        </form>
+                    </CardContent></Card>
+                </div>
+            </div>
+        </React.Fragment>
+    );
+}
+
+export default App;
